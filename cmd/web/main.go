@@ -31,19 +31,19 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/login", login)
-	mux.HandleFunc("/signup", signup)
-	mux.HandleFunc("/logout", logout)
-	mux.HandleFunc("/comment", comment)
-	mux.HandleFunc("/like", like)
-	mux.HandleFunc("/dislike", dislike)
-	mux.HandleFunc("/profile", profile)
-	mux.HandleFunc("/likedPosts", likedPosts)
-	mux.HandleFunc("/category", filterByCategory)
+	mux.HandleFunc("/", app.home)
+	mux.HandleFunc("/login", app.login)
+	mux.HandleFunc("/signup", app.signup)
+	mux.HandleFunc("/logout", app.logout)
+	mux.HandleFunc("/comment", app.comment)
+	mux.HandleFunc("/like", app.like)
+	mux.HandleFunc("/dislike", app.dislike)
+	mux.HandleFunc("/profile", app.profile)
+	mux.HandleFunc("/likedPosts", app.likedPosts)
+	mux.HandleFunc("/category", app.filterByCategory)
 
-	fileServer := http.FileServer(http.Dir("./ui/"))
-	mux.Handle("/ui/", http.StripPrefix("/ui", fileServer))
+	fileServer := http.FileServer(http.Dir("../ui/static/"))
+	mux.Handle("/ui/", http.StripPrefix("/static", fileServer))
 
 	srv := &http.Server {
 		Addr: *addr,

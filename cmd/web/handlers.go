@@ -1,8 +1,12 @@
 package main
 
-import "net/http"
+import (
+	"html/template"
+	"log"
+	"net/http"
+)
 
-func home(w http.ResponseWriter, r *http.Request) {
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
@@ -10,15 +14,30 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		w.Write([]byte("Hello World!"))
+		files := []string {
+			"./ui/html/homePage.html",
+			"./ui/html/baseLayout.html",
+			"./ui/html/footerPartial.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "Internal Server Error", 500)
+			return
+		}
+		err = ts.Execute(w, nil)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "Internal Server Error", 500)
+		}
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func login(w http.ResponseWriter, r *http.Request) {
+func (app *application) login(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/login" {
 		http.NotFound(w, r)
 		return
@@ -30,11 +49,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func signup(w http.ResponseWriter, r *http.Request) {
+func (app *application) signup(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/signup" {
 		http.NotFound(w, r)
 		return
@@ -45,11 +64,11 @@ func signup(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func logout(w http.ResponseWriter, r *http.Request) {
+func (app *application) logout(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/logout" {
 		http.NotFound(w, r)
 		return
@@ -58,11 +77,11 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func comment(w http.ResponseWriter, r *http.Request) {
+func (app *application) comment(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/comment" {
 		http.NotFound(w, r)
 		return
@@ -72,15 +91,15 @@ func comment(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func errorStatus(w http.ResponseWriter, status int) {
+func (app *application) errorStatus(w http.ResponseWriter, status int) {
 	w.WriteHeader(status)
 }
 
-func like(w http.ResponseWriter, r *http.Request) {
+func (app *application) like(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/like" {
 		http.NotFound(w, r)
 		return
@@ -90,11 +109,11 @@ func like(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func dislike(w http.ResponseWriter, r *http.Request) {
+func (app *application) dislike(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/dislike" {
 		http.NotFound(w, r)
 		return
@@ -104,11 +123,11 @@ func dislike(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func profile(w http.ResponseWriter, r *http.Request) {
+func (app *application) profile(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/profile" {
 		http.NotFound(w, r)
 		return
@@ -118,11 +137,11 @@ func profile(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func likedPosts(w http.ResponseWriter, r *http.Request) {
+func (app *application) likedPosts(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/likedPosts" {
 		http.NotFound(w, r)
 		return
@@ -132,11 +151,11 @@ func likedPosts(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func filterByCategory(w http.ResponseWriter, r *http.Request) {
+func (app *application) filterByCategory(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/category" {
 		http.NotFound(w, r)
 		return
@@ -146,6 +165,6 @@ func filterByCategory(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		//
 	default:
-		errorStatus(w, http.StatusMethodNotAllowed)
+		app.errorStatus(w, http.StatusMethodNotAllowed)
 	}
 }
