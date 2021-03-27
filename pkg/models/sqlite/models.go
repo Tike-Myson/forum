@@ -14,7 +14,8 @@ type Post struct {
 	Author string `json:author`
 	Created time.Time `json:created`
 	ImageURL string `json:imageURL`
-	Rating string `json:rating`
+	Rating int `json:rating`
+	Comments []Comment `json:comments`
 }
 
 type Comment struct {

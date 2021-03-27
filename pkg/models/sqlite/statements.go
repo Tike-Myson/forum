@@ -32,7 +32,7 @@ const getAllPostsSQL = `
 /*                                                      */
 /*------------------------------------------------------*/
 
-const createUsersTable = `
+const createUsersTableSQL = `
 	CREATE TABLE IF NOT EXISTS users (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		login TEXT NOT NULL,
@@ -47,3 +47,63 @@ const insertUserSQL = `
 		login, password, mail, created, rating
 	) VALUES (?, ?, ?, ?, ?);
 `
+
+/*------------------------------------------------------*/
+/*                                                      */
+/*                   COMMENT STATEMENTS                 */
+/*                                                      */
+/*------------------------------------------------------*/
+
+const createCommentsTableSQL = `
+	CREATE TABLE IF NOT EXISTS comments (
+		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		postID INTEGER NOT NULL,
+		author TEXT NOT NULL,
+		content TEXT NOT NULL,
+		created TIMESTAMP NOT NULL,
+	);
+`
+
+const insertCommentSQL = `
+	INSERT INTO comments (
+		postID, author, content, created
+	) VALUES (?, ?, ?, ?);
+`
+
+/*------------------------------------------------------*/
+/*                                                      */
+/*                   CATEGORY STATEMENTS                */
+/*                                                      */
+/*------------------------------------------------------*/
+
+const createCategorySQL = `
+	CREATE TABLE IF NOT EXISTS categories (
+		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		name TEXT NOT NULL
+	);
+`
+
+const createCategoryPostLinkSQL = `
+	CREATE TABLE IF NOT EXISTS categoryPostLink (
+		postID INTEGER NOT NULL,
+		name STRING NOT NULL
+	);
+`
+
+const insertCategoriesSQL = `
+	INSERT INTO categories (
+		name
+	) VALUES (?);
+`
+
+const insertCategoryPostLink = `
+	INSERT INTO categoryPostLink (
+		postID, name
+	) VALUES (?, ?);
+`
+
+/*------------------------------------------------------*/
+/*                                                      */
+/*                    RATING STATEMENTS                 */
+/*                                                      */
+/*------------------------------------------------------*/
