@@ -6,23 +6,23 @@ package models
 /*                                                      */
 /*------------------------------------------------------*/
 
-const createPostsTableSQL = `
+const CreatePostsTableSQL = `
 	CREATE TABLE IF NOT EXISTS posts (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		title TEXT NOT NULL,
 		content TEXT NOT NULL,
 		author TEXT NOT NULL,
-		created TIMESTAMP NOT NULL,
-		imageURL TEXT
+		created_at TIMESTAMP NOT NULL,
+		image_url TEXT
 	);
 `
-const insertPostSQL = `
+const InsertPostSQL = `
 	INSERT INTO posts (
-		title, content, author, created, imageURL
+		title, content, author, created_at, image_url
 	) VALUES (?, ?, ?, ?, ?);
 `
 
-const getAllPostsSQL = `
+const GetAllPostsSQL = `
 	SELECT * FROM posts
 `
 
@@ -32,19 +32,19 @@ const getAllPostsSQL = `
 /*                                                      */
 /*------------------------------------------------------*/
 
-const createUsersTableSQL = `
+const CreateUsersTableSQL = `
 	CREATE TABLE IF NOT EXISTS users (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		login TEXT NOT NULL,
+		username TEXT NOT NULL,
 		password TEXT NOT NULL,
-		mail TEXT NOT NULL,
-		created TIMESTAMP NOT NULL,
+		email TEXT NOT NULL,
+		created_at TIMESTAMP NOT NULL,
 		rating INTEGER NOT NULL
 	);
 `
-const insertUserSQL = `
+const InsertUserSQL = `
 	INSERT INTO users (
-		login, password, mail, created, rating
+		username, password, email, created_at, rating
 	) VALUES (?, ?, ?, ?, ?);
 `
 
@@ -54,19 +54,19 @@ const insertUserSQL = `
 /*                                                      */
 /*------------------------------------------------------*/
 
-const createCommentsTableSQL = `
+const CreateCommentsTableSQL = `
 	CREATE TABLE IF NOT EXISTS comments (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		postID INTEGER NOT NULL,
+		post_id INTEGER NOT NULL,
 		author TEXT NOT NULL,
 		content TEXT NOT NULL,
-		created TIMESTAMP NOT NULL,
+		created_at TIMESTAMP NOT NULL,
 	);
 `
 
-const insertCommentSQL = `
+const InsertCommentSQL = `
 	INSERT INTO comments (
-		postID, author, content, created
+		post_id, author, content, created_at
 	) VALUES (?, ?, ?, ?);
 `
 
@@ -76,27 +76,27 @@ const insertCommentSQL = `
 /*                                                      */
 /*------------------------------------------------------*/
 
-const createCategorySQL = `
+const CreateCategoryTableSQL = `
 	CREATE TABLE IF NOT EXISTS categories (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL
 	);
 `
 
-const createCategoryPostLinkSQL = `
+const CreateCategoryPostLinkSQL = `
 	CREATE TABLE IF NOT EXISTS categoryPostLink (
 		postID INTEGER NOT NULL,
 		name STRING NOT NULL
 	);
 `
 
-const insertCategoriesSQL = `
+const InsertCategoriesSQL = `
 	INSERT INTO categories (
 		name
 	) VALUES (?);
 `
 
-const insertCategoryPostLinkSQL = `
+const InsertCategoryPostLinkSQL = `
 	INSERT INTO categoryPostLink (
 		postID, name
 	) VALUES (?, ?);
@@ -108,7 +108,7 @@ const insertCategoryPostLinkSQL = `
 /*                                                      */
 /*------------------------------------------------------*/
 
-const createRatingPostSQL = `
+const CreateRatingPostSQL = `
 	CREATE TABLE IF NOT EXISTS ratingPosts (
 		postID INTEGER NOT NULL,
 		author STRING NOT NULL,
@@ -116,7 +116,7 @@ const createRatingPostSQL = `
 	);
 `
 
-const createRatingCommentSQL = `
+const CreateRatingCommentSQL = `
 	CREATE TABLE IF NOT EXISTS ratingComments (
 		commentID INTEGER NOT NULL,
 		author STRING NOT NULL,
@@ -124,13 +124,13 @@ const createRatingCommentSQL = `
 	);
 `
 
-const insertRatingPostSQL = `
+const InsertRatingPostSQL = `
 	INSERT INTO ratingPosts (
 		postID, author, value
 	) VALUES (?, ?, ?);
 `
 
-const insertRatingCommentSQL = `
+const InsertRatingCommentSQL = `
 	INSERT INTO ratingComments (
 		commentID, author, value
 	) VALUES (?, ?, ?);
