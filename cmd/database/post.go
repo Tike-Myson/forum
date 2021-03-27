@@ -63,7 +63,7 @@ func InsertPost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("New post sent to clientside")
 }
 
-func getAllPosts(db *sql.DB) []models.Post {
+func GetAllPosts(db *sql.DB) []models.Post {
 	var posts []models.Post
 
 	row, err := db.Query(models.GetAllPostsSQL)
@@ -99,7 +99,7 @@ func SendAllPosts(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	posts := getAllPosts(db)
+	posts := GetAllPosts(db)
 	json.NewEncoder(w).Encode(posts)
 
 	fmt.Println("All posts sent to clientside")

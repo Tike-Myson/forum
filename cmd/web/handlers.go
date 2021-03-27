@@ -1,8 +1,7 @@
 package main
 
 import (
-	"html/template"
-	"log"
+	"github.com/Tike-Myson/forum/cmd/database"
 	"net/http"
 )
 
@@ -14,22 +13,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		files := []string {
-			"./ui/html/homePage.html",
-			"./ui/html/baseLayout.html",
-			"./ui/html/footerPartial.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Internal Server Error", 500)
-			return
-		}
-		err = ts.Execute(w, nil)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Internal Server Error", 500)
-		}
+		//
 	case "POST":
 		//
 	default:
@@ -37,8 +21,54 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) login(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/login" {
+func (app *application) PostsAPI(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	//if r.URL.Path != "/api/posts" {
+	//	http.NotFound(w, r)
+	//	return
+	//}
+	//
+	//switch r.Method {
+	//case "GET":
+		database.SendAllPosts(db,w,r)
+	//default:
+	//	app.errorStatus(w, http.StatusMethodNotAllowed)
+	//}
+}
+
+func (app *application) CreatePostAPI(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	//if r.URL.Path != "/api/create-post/" {
+	//	http.NotFound(w, r)
+	//	return
+	//}
+
+	//switch r.Method {
+	//case "POST":
+		database.InsertPost(db,w,r)
+	//default:
+	//	app.errorStatus(w, http.StatusMethodNotAllowed)
+	//}
+}
+
+func (app *application) SignUp(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/api/auth/signup" {
+		http.NotFound(w, r)
+		return
+	}
+
+	switch r.Method {
+	case "POST":
+		database.InsertUser(db, w, r)
+	default:
+		app.errorStatus(w, http.StatusMethodNotAllowed)
+	}
+}
+
+func (app *application) Login(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/api/auth/login" {
 		http.NotFound(w, r)
 		return
 	}
@@ -46,48 +76,6 @@ func (app *application) login(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		//
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
-}
-
-func (app *application) signup(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/signup" {
-		http.NotFound(w, r)
-		return
-	}
-	switch r.Method {
-	case "GET":
-		//
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
-}
-
-func (app *application) logout(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/logout" {
-		http.NotFound(w, r)
-		return
-	}
-	switch r.Method {
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
-}
-
-func (app *application) comment(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/comment" {
-		http.NotFound(w, r)
-		return
-	}
-
-	switch r.Method {
 	case "POST":
 		//
 	default:
@@ -97,74 +85,4 @@ func (app *application) comment(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) errorStatus(w http.ResponseWriter, status int) {
 	w.WriteHeader(status)
-}
-
-func (app *application) like(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/like" {
-		http.NotFound(w, r)
-		return
-	}
-
-	switch r.Method {
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
-}
-
-func (app *application) dislike(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/dislike" {
-		http.NotFound(w, r)
-		return
-	}
-
-	switch r.Method {
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
-}
-
-func (app *application) profile(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/profile" {
-		http.NotFound(w, r)
-		return
-	}
-
-	switch r.Method {
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
-}
-
-func (app *application) likedPosts(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/likedPosts" {
-		http.NotFound(w, r)
-		return
-	}
-
-	switch r.Method {
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
-}
-
-func (app *application) filterByCategory(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/category" {
-		http.NotFound(w, r)
-		return
-	}
-
-	switch r.Method {
-	case "POST":
-		//
-	default:
-		app.errorStatus(w, http.StatusMethodNotAllowed)
-	}
 }

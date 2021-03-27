@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	models "github.com/Tike-Myson/forum/pkg/models/sqlite"
+	//uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
@@ -74,11 +75,11 @@ func InsertUser(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("New user sent to clientside")
 }
 
-//func authenticateUser(email string, password string) int {
+//func authenticateUser(db *sql.DB,email string, password string) int {
 //	var id int
 //	var hashedPassword string
 //
-//	row := db.QueryRow(getUserSQL, email)
+//	row := db.QueryRow(GetUserSQL, email)
 //	err := row.Scan(&id, &hashedPassword)
 //	if err != nil {
 //		fmt.Println("Error occured while scanning through db", err)
@@ -92,7 +93,7 @@ func InsertUser(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 //	}
 //	return id
 //}
-//
+
 //func LoginUser(w http.ResponseWriter, r *http.Request) {
 //	w.Header().Set("Content-Type", "application/json")
 //	w.Header().Set("Access-Control-Allow-Origin", "*")
