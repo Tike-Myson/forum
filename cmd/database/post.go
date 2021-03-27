@@ -1,15 +1,16 @@
-package models
+package database
 
 import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	models "github.com/Tike-Myson/forum/pkg/models/sqlite"
 	"log"
 	"net/http"
 )
 
 func CreatePostsTable(db *sql.DB) {
-	postsTable, err := db.Prepare(createPostsTableSQL)
+	postsTable, err := db.Prepare(models.CreatePostsTableSQL)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -22,8 +23,8 @@ func CreatePostsTable(db *sql.DB) {
 	log.Println("Post table created in DB")
 }
 
-func insertPostIntoDB(db *sql.DB, postData Post) {
-	insertPost, err := db.Prepare(insertPostSQL)
+func insertPostIntoDB(db *sql.DB, postData models.Post) {
+	insertPost, err := db.Prepare(models.InsertPostSQL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,7 +49,7 @@ func InsertPost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	var post Post
+	var post models.Post
 	err := json.NewDecoder(r.Body).Decode(&post)
 	if err != nil {
 		log.Fatal(err)
@@ -62,19 +63,19 @@ func InsertPost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("New post sent to clientside")
 }
 
-func getAllPosts(db *sql.DB) []Post {
-	var posts []Post
+func getAllPosts(db *sql.DB) []models.Post {
+	var posts []models.Post
 
-	row, err := db.Query(getAllPostsSQL)
+	row, err := db.Query(models.GetAllPostsSQL)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
 
-	var author User
+	var author models.User
 
 	for row.Next() {
-		var post = Post{
+		var post = models.Post{
 			Author: author,
 		}
 		err = row.Scan(

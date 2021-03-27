@@ -1,9 +1,10 @@
-package models
+package database
 
 import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	models "github.com/Tike-Myson/forum/pkg/models/sqlite"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
@@ -11,7 +12,7 @@ import (
 )
 
 func CreateUsersTable(db *sql.DB) {
-	userTable, err := db.Prepare(createUsersTableSQL)
+	userTable, err := db.Prepare(models.CreateUsersTableSQL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,8 +25,8 @@ func CreateUsersTable(db *sql.DB) {
 	log.Println("Users table created in DB")
 }
 
-func insertUserIntoDB(db *sql.DB, user User) {
-	insertUser, err := db.Prepare(insertUserSQL)
+func insertUserIntoDB(db *sql.DB, user models.User) {
+	insertUser, err := db.Prepare(models.InsertUserSQL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,7 +51,7 @@ func InsertUser(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	var user User
+	var user models.User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Fatal(err)

@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
-	models "github.com/Tike-Myson/forum/pkg/models/sqlite"
+	"github.com/Tike-Myson/forum/cmd/database"
 	"log"
 	"net/http"
 	"os"
@@ -65,7 +65,7 @@ func openDB(dsn string) (*sql.DB, error) {
 }
 
 func createTables(db *sql.DB) {
-	models.CreatePostsTable(db)
-	models.CreateUsersTable(db)
+	database.CreatePostsTable(db)
+	database.CreateUsersTable(db)
 }
 
