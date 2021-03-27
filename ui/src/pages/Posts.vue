@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <post-form @updatePost="addPost" />
-    <post v-for="post in posts" :key="post.title" :title="post.title" :content="post.content" />
+    <post v-for="post in posts" :key="post.title" :post="post" />
   </v-container>
 </template>
 
@@ -18,7 +18,16 @@ export default {
   },
   data() {
     return {
-      posts: [],
+      posts: [
+        {
+          title: 'Some title',
+          content: 'Some content',
+        },
+        {
+          title: 'Some title',
+          content: 'Some content',
+        },
+      ],
     };
   },
   methods: {

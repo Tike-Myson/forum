@@ -1,5 +1,5 @@
 <template>
-  <v-card justify-center align-center>
+  <v-card class="mt-10" justify-center align-center>
     <v-form @submit.prevent="emitPostData">
       <v-card-title>Create Post</v-card-title>
       <v-row class="px-5">
