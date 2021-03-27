@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	models "github.com/Tike-Myson/forum/pkg/models/sqlite"
 	"log"
 	"net/http"
 	"os"
@@ -33,6 +34,7 @@ func main() {
 	if err != nil {
 		errorLog.Fatal(err)
 	}
+	createTables(db)
 	defer db.Close()
 
 	app := &application{
@@ -60,5 +62,10 @@ func openDB(dsn string) (*sql.DB, error) {
 		return nil, err
 	}
 	return db, nil
+}
+
+func createTables(db *sql.DB) {
+	models.CreatePostsTable(db)
+	models.CreateUsersTable(db)
 }
 
