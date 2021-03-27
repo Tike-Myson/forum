@@ -11,19 +11,19 @@ type Post struct {
 	ID int `json:"id,string,omitempty"`
 	Title string `json:title`
 	Content string `json:content`
-	Author string `json:author`
-	Created time.Time `json:created`
-	ImageURL string `json:imageURL`
+	Author User `json:author`
+	CreatedAt time.Time `json:created_at`
+	ImageURL string `json:image_url`
 	Rating int `json:rating`
 	Comments []Comment `json:comments`
 }
 
 type Comment struct {
-	ID int `json:`
-	PostID int `json:`
+	ID int `json:id`
+	PostID int `json:post_id`
 	Author string `json:author`
 	Content string `json:content`
-	Created time.Time `json:created`
+	CreatedAt time.Time `json:created_at`
 	Rating int `json:rating`
 }
 
@@ -51,9 +51,9 @@ type CategoryPostLink struct {
 
 type User struct {
 	ID int `json:id, string, omitempty`
-	Login string `json:login`
+	Username string `json:username`
 	Password string `json:password`
-	Mail string `json:mail`
-	Created int `json:created`
+	Email string `json:email`
+	CreatedAt time.Time `json:created_at`
 	Rating int `json:rating`
 }

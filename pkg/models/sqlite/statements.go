@@ -12,13 +12,13 @@ const createPostsTableSQL = `
 		title TEXT NOT NULL,
 		content TEXT NOT NULL,
 		author TEXT NOT NULL,
-		created TIMESTAMP NOT NULL,
-		imageURL TEXT
+		created_at TIMESTAMP NOT NULL,
+		image_url TEXT
 	);
 `
 const insertPostSQL = `
 	INSERT INTO posts (
-		title, content, author, created, imageURL
+		title, content, author, created_at, image_url
 	) VALUES (?, ?, ?, ?, ?);
 `
 
@@ -35,16 +35,16 @@ const getAllPostsSQL = `
 const createUsersTableSQL = `
 	CREATE TABLE IF NOT EXISTS users (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		login TEXT NOT NULL,
+		username TEXT NOT NULL,
 		password TEXT NOT NULL,
-		mail TEXT NOT NULL,
-		created TIMESTAMP NOT NULL,
+		email TEXT NOT NULL,
+		created_at TIMESTAMP NOT NULL,
 		rating INTEGER NOT NULL
 	);
 `
 const insertUserSQL = `
 	INSERT INTO users (
-		login, password, mail, created, rating
+		username, password, email, created_at, rating
 	) VALUES (?, ?, ?, ?, ?);
 `
 
@@ -57,16 +57,16 @@ const insertUserSQL = `
 const createCommentsTableSQL = `
 	CREATE TABLE IF NOT EXISTS comments (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		postID INTEGER NOT NULL,
+		post_id INTEGER NOT NULL,
 		author TEXT NOT NULL,
 		content TEXT NOT NULL,
-		created TIMESTAMP NOT NULL,
+		created_at TIMESTAMP NOT NULL,
 	);
 `
 
 const insertCommentSQL = `
 	INSERT INTO comments (
-		postID, author, content, created
+		post_id, author, content, created_at
 	) VALUES (?, ?, ?, ?);
 `
 
@@ -76,7 +76,7 @@ const insertCommentSQL = `
 /*                                                      */
 /*------------------------------------------------------*/
 
-const createCategorySQL = `
+const createCategoryTableSQL = `
 	CREATE TABLE IF NOT EXISTS categories (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL
