@@ -96,7 +96,7 @@ const insertCategoriesSQL = `
 	) VALUES (?);
 `
 
-const insertCategoryPostLink = `
+const insertCategoryPostLinkSQL = `
 	INSERT INTO categoryPostLink (
 		postID, name
 	) VALUES (?, ?);
@@ -107,3 +107,32 @@ const insertCategoryPostLink = `
 /*                    RATING STATEMENTS                 */
 /*                                                      */
 /*------------------------------------------------------*/
+
+const createRatingPostSQL = `
+	CREATE TABLE IF NOT EXISTS ratingPosts (
+		postID INTEGER NOT NULL,
+		author STRING NOT NULL,
+		value INTEGER NOT NULL
+	);
+`
+
+const createRatingCommentSQL = `
+	CREATE TABLE IF NOT EXISTS ratingComments (
+		commentID INTEGER NOT NULL,
+		author STRING NOT NULL,
+		value INTEGER NOT NULL
+	);
+`
+
+const insertRatingPostSQL = `
+	INSERT INTO ratingPosts (
+		postID, author, value
+	) VALUES (?, ?, ?);
+`
+
+const insertRatingCommentSQL = `
+	INSERT INTO ratingComments (
+		commentID, author, value
+	) VALUES (?, ?, ?);
+`
+
