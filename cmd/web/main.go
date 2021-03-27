@@ -30,25 +30,10 @@ func main() {
 		infoLog: infoLog,
 	}
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.home)
-	mux.HandleFunc("/login", app.login)
-	mux.HandleFunc("/signup", app.signup)
-	mux.HandleFunc("/logout", app.logout)
-	mux.HandleFunc("/comment", app.comment)
-	mux.HandleFunc("/like", app.like)
-	mux.HandleFunc("/dislike", app.dislike)
-	mux.HandleFunc("/profile", app.profile)
-	mux.HandleFunc("/likedPosts", app.likedPosts)
-	mux.HandleFunc("/category", app.filterByCategory)
-
-	fileServer := http.FileServer(http.Dir("../ui/static/"))
-	mux.Handle("/ui/", http.StripPrefix("/static", fileServer))
-
 	srv := &http.Server {
 		Addr: *addr,
 		ErrorLog: errorLog,
-		Handler: mux,
+		Handler: app.routes(),
 	}
 
 	infoLog.Printf("Server run on http://127.0.0.1%s\n", *addr)
